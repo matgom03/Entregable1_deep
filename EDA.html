@@ -1,0 +1,1864 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Analisis exploratorio de datos &#8212; Entregable_1</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EDA';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modelos originales de Deep Learning para el Reconocimiento de Terreno en Marte (AI4MARS)" href="tabla.html" />
+    <link rel="prev" title="Dataset: AI4MARS (Artificial Intelligence for Mars Rover Surveys)" href="int.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="int.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Entregable_1 - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Entregable_1 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="int.html">
+                    Dataset: AI4MARS (Artificial Intelligence for Mars Rover Surveys)
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis exploratorio de datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabla.html">Modelos originales de Deep Learning para el Reconocimiento de Terreno en Marte (AI4MARS)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FEDA.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EDA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis exploratorio de datos</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias">Librerias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-inicial">Analisis Inicial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-dataset-mejorado">Construccion del dataset mejorado</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-de-datos">
+<h1>Analisis exploratorio de datos<a class="headerlink" href="#analisis-exploratorio-de-datos" title="Permalink to this heading">#</a></h1>
+<section id="librerias">
+<h2>Librerias<a class="headerlink" href="#librerias" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analisis-inicial">
+<h2>Analisis Inicial<a class="headerlink" href="#analisis-inicial" title="Permalink to this heading">#</a></h2>
+<p>En primer lugar se revisan los contenidos del zip que contiene el dataset con las imagenes y los labels</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📂 </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ├── </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ├── </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs
+   ├── m2020
+   ├── mer
+   ├── msl
+   ├── EDA.ipynb
+   ├── int.md
+   ├── label_keys.json
+   ├── logo.png
+   ├── references.bib
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020
+   ├── images
+   ├── labels
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images
+   ├── HAFIQ
+   ├── mcam
+   ├── ncam
+   ├── DATA_NOTES.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\HAFIQ
+   ├── VgncRawLeft_0684693433-41490_rectified.jpeg
+   ├── VgncRawLeft_0684693508-32241_rectified.jpeg
+   ├── VgncRawLeft_0684693533-49468_rectified.jpeg
+   ├── VgncRawLeft_0684693577-45625_rectified.jpeg
+   ├── VgncRawLeft_0684693600-27358_rectified.jpeg
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\mcam
+   ├── ZL0_0011_0667930092_064EBY_N0030000ZCAM00015_0340LUJ.jpg
+   ├── ZL0_0011_0667930158_064EBY_N0030000ZCAM00015_0340LUJ.jpg
+   ├── ZL0_0011_0667930176_064EBY_N0030000ZCAM00015_0340LUJ.jpg
+   ├── ZL0_0011_0667930191_064EBY_N0030000ZCAM00015_0340LUJ.jpg
+   ├── ZL0_0011_0667930209_064EBY_N0030000ZCAM00015_0340LUJ.jpg
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\ncam
+   ├── NLF_0002_0667130166_842EBY_N0010052AUT_04096_00_0LLJ.jpeg
+   ├── NLF_0002_0667130214_804EBY_N0010052AUT_04096_00_0LLJ.jpeg
+   ├── NLF_0002_0667130259_241EBY_N0010052AUT_04096_00_0LLJ.jpeg
+   ├── NLF_0002_0667130543_401EBY_N0010052AUT_04096_00_0LLJ.jpeg
+   ├── NLF_0002_0667130566_154EBY_N0010052AUT_04096_00_0LLJ.jpeg
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels
+   ├── M2020_GEO
+   ├── NAV
+   ├── NAV_DATA_NOTE.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO
+   ├── mcam
+   ├── ncam
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO\mcam
+   ├── ZL0_0011_0667930092_064EBY_N0030000ZCAM00015_0340LUJ_merged9.png
+   ├── ZL0_0011_0667930298_064EBY_N0030000ZCAM00015_0340LUJ_merged9.png
+   ├── ZL0_0011_0667930314_064EBY_N0030000ZCAM00015_0340LUJ_merged7.png
+   ├── ZL0_0011_0667930329_064EBY_N0030000ZCAM00015_0340LUJ_merged16.png
+   ├── ZL0_0011_0667930344_064EBY_N0030000ZCAM00015_0340LUJ_merged9.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO\ncam
+   ├── NLF_0002_0667130166_842EBY_N0010052AUT_04096_00_merged4.png
+   ├── NLF_0002_0667130214_804EBY_N0010052AUT_04096_00_merged3.png
+   ├── NLF_0002_0667130259_241EBY_N0010052AUT_04096_00_merged5.png
+   ├── NLF_0002_0667130543_401EBY_N0010052AUT_04096_00_merged2.png
+   ├── NLF_0002_0667130566_154EBY_N0010052AUT_04096_00_merged4.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\NAV
+   ├── NLF_0009_0667755636_926ECM_N0030000NCAM05000_01_295J_merged60.png
+   ├── NLF_0009_0667755959_167ECM_N0030000NCAM05000_01_295J_merged60.png
+   ├── NLF_0009_0667756282_606ECM_N0030000NCAM05000_01_295J_merged52.png
+   ├── NLF_0009_0667756352_693ECM_N0030000NCAM05000_01_295J_merged53.png
+   ├── NLF_0009_0667756428_901ECM_N0030000NCAM05000_01_295J_merged38.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer
+   ├── images
+   ├── labels
+   ├── NOTE.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images
+   ├── eff
+   ├── test
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images\eff
+   ├── 1n128367857eff0200p1512l0m1.JPG
+   ├── 1n128367913eff0200p1512l0m1.JPG
+   ├── 1n128367965eff0200p1512l0m1.JPG
+   ├── 1n128368017eff0200p1512l0m1.JPG
+   ├── 1n128368053eff0200p1512l0m1.JPG
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images\test
+   ├── 1n129697839eff0338p1931l0m1.JPG
+   ├── 1n129697952eff0338p1932l0m1.JPG
+   ├── 1n129698004eff0338p1932l0m1.JPG
+   ├── 1n136619282eff2000p1985l0m1.JPG
+   ├── 1n136619354eff2000p1985l0m1.JPG
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels
+   ├── test
+   ├── train
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test
+   ├── masked-gold-min1-100agree
+   ├── masked-gold-min2-100agree
+   ├── masked-gold-min3-100agree
+   ├── raw_unmerged
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min1-100agree
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_merged.png
+   ├── 1n129697952eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n129698004eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n136619282eff2000p1985l0m1_16165_T0_merged.png
+   ├── 1n136619354eff2000p1985l0m1_16165_T0_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min2-100agree
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_merged.png
+   ├── 1n129697952eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n129698004eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n136619282eff2000p1985l0m1_16165_T0_merged.png
+   ├── 1n136619354eff2000p1985l0m1_16165_T0_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min3-100agree
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_merged.png
+   ├── 1n129697952eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n129698004eff0338p1932l0m1_16165_T0_merged.png
+   ├── 1n136619282eff2000p1985l0m1_16165_T0_merged.png
+   ├── 1n136619354eff2000p1985l0m1_16165_T0_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\raw_unmerged
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_SOL17_2145455.png
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_SOL17_2145457.png
+   ├── 1n129697839eff0338p1931l0m1_16165_T0_SOL17_2146379.png
+   ├── 1n129697952eff0338p1932l0m1_16165_T0_SOL17_2145455.png
+   ├── 1n129697952eff0338p1932l0m1_16165_T0_SOL17_2145457.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\train
+   ├── merged-unmasked
+   ├── NOTE.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\train\merged-unmasked
+   ├── 1n128367857eff0200p1512l0m1_merged6.png
+   ├── 1n128367913eff0200p1512l0m1_merged8.png
+   ├── 1n128367965eff0200p1512l0m1_merged4.png
+   ├── 1n128368017eff0200p1512l0m1_merged7.png
+   ├── 1n128368053eff0200p1512l0m1_merged8.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl
+   ├── mcam
+   ├── ncam
+   ├── NOTE.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam
+   ├── images
+   ├── labels
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\images
+   ├── 1150ML0052000010501746E01_XXXX.JPG
+   ├── 1150ML0052000020501747E01_XXXX.JPG
+   ├── 1150ML0052000030501748E01_XXXX.JPG
+   ├── 1150ML0052000040501749E01_XXXX.JPG
+   ├── 1150ML0052000050501750E01_XXXX.JPG
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\labels
+   ├── train
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\labels\train
+   ├── 1150ML0052000010501746E01_XXXX_15033_merged.png
+   ├── 1150ML0052000020501747E01_XXXX_15033_merged.png
+   ├── 1150ML0052000030501748E01_XXXX_15033_merged.png
+   ├── 1150ML0052000040501749E01_XXXX_15033_merged.png
+   ├── 1150ML0052000050501750E01_XXXX_15033_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam
+   ├── images
+   ├── labels
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images
+   ├── edr
+   ├── mxy
+   ├── rng-30m
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\edr
+   ├── NLA_397586928EDR_F0010008AUT_04096M1.JPG
+   ├── NLA_397586934EDR_F0010008AUT_04096M1.JPG
+   ├── NLA_397681339EDR_F0020000AUT_04096M1.JPG
+   ├── NLA_397681372EDR_F0020000AUT_04096M1.JPG
+   ├── NLA_397681398EDR_F0020000AUT_04096M1.JPG
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\mxy
+   ├── NLA_397586928MXY_F0010008AUT_04096M1.png
+   ├── NLA_397586934MXY_F0010008AUT_04096M1.png
+   ├── NLA_397681339MXY_F0020000AUT_04096M1.png
+   ├── NLA_397681372MXY_F0020000AUT_04096M1.png
+   ├── NLA_397681398MXY_F0020000AUT_04096M1.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\rng-30m
+   ├── NLA_397586928RNG_F0010008AUT_04096M1.png
+   ├── NLA_397586934RNG_F0010008AUT_04096M1.png
+   ├── NLA_397681339RNG_F0020000AUT_04096M1.png
+   ├── NLA_397681372RNG_F0020000AUT_04096M1.png
+   ├── NLA_397681398RNG_F0020000AUT_04096M1.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels
+   ├── test
+   ├── train
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test
+   ├── masked-gold-min1-100agree
+   ├── masked-gold-min2-100agree
+   ├── masked-gold-min3-100agree
+   ├── NOTE.txt
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min1-100agree
+   ├── NLA_409036068EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036116EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036860EDR_F0051662NCAM00346M1_merged.png
+   ├── NLA_409036993EDR_F0051662NCAM05703M1_merged.png
+   ├── NLA_409037112EDR_F0051662NCAM05703M1_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min2-100agree
+   ├── NLA_409036068EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036116EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036860EDR_F0051662NCAM00346M1_merged.png
+   ├── NLA_409036993EDR_F0051662NCAM05703M1_merged.png
+   ├── NLA_409037112EDR_F0051662NCAM05703M1_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min3-100agree
+   ├── NLA_409036068EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036116EDR_F0051606NCAM00348M1_merged.png
+   ├── NLA_409036860EDR_F0051662NCAM00346M1_merged.png
+   ├── NLA_409036993EDR_F0051662NCAM05703M1_merged.png
+   ├── NLA_409037112EDR_F0051662NCAM05703M1_merged.png
+
+📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\train
+   ├── NLA_397586934EDR_F0010008AUT_04096M1.png
+   ├── NLA_397681339EDR_F0020000AUT_04096M1.png
+   ├── NLA_397681372EDR_F0020000AUT_04096M1.png
+   ├── NLA_397681398EDR_F0020000AUT_04096M1.png
+   ├── NLA_397681429EDR_F0020000AUT_04096M1.png
+</pre></div>
+</div>
+</div>
+</div>
+<p>se realiza un conteo por extension de los archivos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">stats</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conteo por extensión:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conteo por extensión:
+.bib: 1
+.csv: 1
+.ipynb: 1
+.jpeg: 5433
+.jpg: 56361
+.json: 1
+.md: 2
+.png: 84336
+.txt: 7
+.yml: 2
+</pre></div>
+</div>
+</div>
+</div>
+<p>se cuentan los archivos que contiene cada carpeta de rover</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">count_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+<span class="n">missions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m2020&quot;</span><span class="p">,</span> <span class="s2">&quot;mer&quot;</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">missions</span><span class="p">:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> total files: </span><span class="si">{</span><span class="n">count_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>M2020 total files: 30401
+
+MER total files: 26185
+
+MSL total files: 89550
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ahora se verifican el numero de imagenes y labels de cada rover individualmente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="n">msl_ncam_images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;edr&quot;</span><span class="p">)</span>
+<span class="n">msl_ncam_labels</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span>
+
+<span class="n">msl_images</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">msl_ncam_images</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)}</span>
+<span class="n">msl_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">msl_ncam_labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total images:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msl_images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total labels:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msl_labels</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Images without label:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msl_images</span> <span class="o">-</span> <span class="n">msl_labels</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labels without image:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msl_labels</span> <span class="o">-</span> <span class="n">msl_images</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images: 18127
+Total labels: 16064
+Images without label: 2063
+Labels without image: 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mer_images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;mer&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;eff&quot;</span><span class="p">)</span>
+<span class="n">mer_labels</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;mer&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;merged-unmasked&quot;</span><span class="p">)</span>
+
+<span class="n">MER_images</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mer_images</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)}</span>
+<span class="n">MER_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_merged&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mer_labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total images:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MER_images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total labels:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MER_labels</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Images without label:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MER_images</span> <span class="o">-</span> <span class="n">MER_labels</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labels without image:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MER_labels</span> <span class="o">-</span> <span class="n">MER_images</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images: 16300
+Total labels: 8507
+Images without label: 7997
+Labels without image: 204
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m2020_ncam_images</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;m2020&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">)</span>
+<span class="n">m2020_nav_labels</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;m2020&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span><span class="p">)</span>
+
+<span class="n">m2020_images</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">m2020_ncam_images</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">))}</span>
+<span class="n">m2020_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_merged&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">m2020_nav_labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total images:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">m2020_images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total labels:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">m2020_labels</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Images without label:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">m2020_images</span> <span class="o">-</span> <span class="n">m2020_labels</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labels without image:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">m2020_labels</span> <span class="o">-</span> <span class="n">m2020_images</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images: 4286
+Total labels: 3827
+Images without label: 1931
+Labels without image: 1472
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se realiza un grafico de barras para visualizar de mejor manera la distribucion de imagenes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rovers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MSL&quot;</span><span class="p">,</span> <span class="s2">&quot;MER&quot;</span><span class="p">,</span> <span class="s2">&quot;M2020&quot;</span><span class="p">]</span>
+<span class="n">image_counts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">msl_images</span><span class="p">),</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">MER_images</span><span class="p">),</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">m2020_images</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">rovers</span><span class="p">,</span> <span class="n">image_counts</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Rover&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Numero de imagenes&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number de imagenes por Rover (Original Dataset)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/172a5795f8980f8b63f31e041c444257ecb240ae2d778478ff1f9c7183c609d2.png" src="_images/172a5795f8980f8b63f31e041c444257ecb240ae2d778478ff1f9c7183c609d2.png" />
+</div>
+</div>
+<p>Podemos observar que de los 3 rovers M2020 es el que tiene menos imagenes de los 3 lo que haria que el modelo tuviera un gran desbalance a la hora del modelado</p>
+<p>Realizamos a su vez un grafico con el ancho y el alto de las imagenes para denotar sus dimensiones</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">msl_ncam_images</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;.jpeg&quot;</span><span class="p">)):</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl_ncam_images</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">img</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total images analyzed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">widths</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images analyzed: 18127
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Ancho (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de anchos – MSL&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/df08e8c2402ec2d5ba9841c6dfe3b06c7b01e92e4856ce48afcdc4f6b4edd5ff.png" src="_images/df08e8c2402ec2d5ba9841c6dfe3b06c7b01e92e4856ce48afcdc4f6b4edd5ff.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Image height (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de altura de imagenes – MSL&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ef5fe065243630ab325c289ad03fded2cd36205b50cf76fe82203ed390520d2e.png" src="_images/ef5fe065243630ab325c289ad03fded2cd36205b50cf76fe82203ed390520d2e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mer_images</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;.jpeg&quot;</span><span class="p">)):</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mer_images</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">img</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total images analyzed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">widths</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images analyzed: 16300
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Ancho (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de anchos – MER&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4790825fe5c1b9c033edcf6bee8d60fb1e290b791ca0acfd8a1c9a58cefc53bc.png" src="_images/4790825fe5c1b9c033edcf6bee8d60fb1e290b791ca0acfd8a1c9a58cefc53bc.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Image height (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de altura de imagenes – MER&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d557707e82c6c0ed26ab9161e67c3bce21584a27caa1df4966f1b9bd0b7ed242.png" src="_images/d557707e82c6c0ed26ab9161e67c3bce21584a27caa1df4966f1b9bd0b7ed242.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">m2020_ncam_images</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;.jpeg&quot;</span><span class="p">)):</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">m2020_ncam_images</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">img</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total images analyzed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">widths</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total images analyzed: 4573
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Ancho (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de anchos – M2020&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f1e7f1e91448ea3508c84c6e16c611ce1903a6508e883ced42e458e1680907da.png" src="_images/f1e7f1e91448ea3508c84c6e16c611ce1903a6508e883ced42e458e1680907da.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Image height (pixels)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de altura de imagenes – M2020&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/781005e54d32d43e0900b84199b3c3f3c9e142ef4dcade75a2baf3d4ea360ef3.png" src="_images/781005e54d32d43e0900b84199b3c3f3c9e142ef4dcade75a2baf3d4ea360ef3.png" />
+</div>
+</div>
+<p>Podemos observar que las imagenes en M2020 son mucho mas variadas en cuanto a ancho y alto a comparacion de los otros rovers</p>
+<p>revisamos la distribucion de clases</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_path</span> <span class="o">=</span> <span class="n">m2020_nav_labels</span>   <span class="c1"># cambia según rover</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">50</span>                  <span class="c1"># puedes subir a 200–500 si quieres</span>
+
+<span class="n">label_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">labels_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)]</span>
+<span class="n">sampled_files</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">label_files</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_files</span><span class="p">)))</span>
+
+<span class="n">pixel_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+<span class="n">total_pixels</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">sampled_files</span><span class="p">:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels_path</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span>
+    <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="n">pixel_counter</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">u</span><span class="p">)]</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">total_pixels</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">class_distribution</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="bp">cls</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_pixels</span>
+    <span class="k">for</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">pixel_counter</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución aproximada de clases (pre-remapeo):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">frac</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">class_distribution</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">frac</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución aproximada de clases (pre-remapeo):
+Clase 0: 0.4599
+Clase 1: 0.0960
+Clase 2: 0.0970
+Clase 3: 0.0073
+Clase 255: 0.3398
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">class_distribution</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">fractions</span> <span class="o">=</span> <span class="p">[</span><span class="n">class_distribution</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">],</span> <span class="n">fractions</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Class ID (original)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Proporcion de pixeles&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Dsitribucion de clases original&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/94f18912a458f41098dba620a5a199caf6ac15bed3126f1f2333338729018d08.png" src="_images/94f18912a458f41098dba620a5a199caf6ac15bed3126f1f2333338729018d08.png" />
+</div>
+</div>
+<p>Podemos observar que existe un desbalanceo severo en las clases, con 255 dominando y la clase 3 siendo muy baja en general</p>
+</section>
+<section id="construccion-del-dataset-mejorado">
+<h2>Construccion del dataset mejorado<a class="headerlink" href="#construccion-del-dataset-mejorado" title="Permalink to this heading">#</a></h2>
+<p>Podemos observar que las 3 misiones tienen diferentes dimensiones y existe un desbalance severo a la hora de trabajar con las clases, entonces se realizara un nuevo dataset que combine todas las 3 misiones enun dataset global para utilizarse en el modelado.</p>
+<p>Debido a lo analizado antes se realiza un remapeo semantico asi como una normalizacion de algunos nombres para tener un analisis mas completo a la hora de trabajar con las imagenes</p>
+<p>Se realiza la normalizacion de algunos nombres en imagenes de M2020</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_m2020_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_0LLJ&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged1&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged2&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged3&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged4&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged5&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged6&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged7&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged8&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged9&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_merged16&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span>
+
+<span class="n">images</span> <span class="o">=</span> <span class="p">{</span><span class="n">normalize_m2020_name</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+          <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">m2020_ncam_images</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">))}</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">normalize_m2020_name</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+          <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">m2020_nav_labels</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total normalized images:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total normalized labels:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Images without label:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span> <span class="o">-</span> <span class="n">labels</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labels without image:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span> <span class="o">-</span> <span class="n">images</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total normalized images: 4286
+Total normalized labels: 3827
+Images without label: 3813
+Labels without image: 3354
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valid_pairs</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valid pairs:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_pairs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valid pairs: 473
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se realiza una configuracion en el msl para las labels de este rover</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ================================</span>
+<span class="c1"># CONFIGURACIÓN CORRECTA MSL NCAM</span>
+<span class="c1"># ================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="n">msl_ncam_labels</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">base_path</span><span class="p">,</span>
+    <span class="s2">&quot;msl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ncam&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;labels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;train&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ruta:&quot;</span><span class="p">,</span> <span class="n">msl_ncam_labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total máscaras:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">msl_ncam_labels</span><span class="p">)))</span>
+
+
+<span class="c1"># ================================</span>
+<span class="c1"># FUNCIÓN DE ANÁLISIS</span>
+<span class="c1"># ================================</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_mask_distribution</span><span class="p">(</span><span class="n">label_folder</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">label_folder</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)]</span>
+    <span class="n">sampled</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)))</span>
+    
+    <span class="n">class_counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">total_pixels</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">sampled</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_folder</span><span class="p">,</span> <span class="n">file</span><span class="p">)))</span>
+        <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+            <span class="n">class_counts</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+            <span class="n">total_pixels</span> <span class="o">+=</span> <span class="n">c</span>
+            
+    <span class="k">return</span> <span class="n">class_counts</span><span class="p">,</span> <span class="n">total_pixels</span>
+
+
+<span class="n">class_counts</span><span class="p">,</span> <span class="n">total_pixels</span> <span class="o">=</span> <span class="n">analyze_mask_distribution</span><span class="p">(</span><span class="n">msl_ncam_labels</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Distribución aproximada de clases (50 máscaras):&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">class_counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">class_counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">total_pixels</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ruta: C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\train
+Total máscaras: 16064
+
+Distribución aproximada de clases (50 máscaras):
+Clase 0: 0.2199
+Clase 1: 0.3088
+Clase 2: 0.0396
+Clase 3: 0.0019
+Clase 255: 0.4297
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se realiza un mapeo unificado de las clases del dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="n">label_keys_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;label_keys.json&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">label_keys_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">label_keys</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">label_keys</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;NAV&#39;: {&#39;0&#39;: &#39;soil&#39;, &#39;1&#39;: &#39;bedrock&#39;, &#39;2&#39;: &#39;sand&#39;, &#39;3&#39;: &#39;big rock&#39;, &#39;255&#39;: None}, &#39;M2020_GEO&#39;: {&#39;0&#39;: &#39;bedrock_massive&#39;, &#39;1&#39;: &#39;bedrock_layered (angled)&#39;, &#39;2&#39;: &#39;bedrock_layered (flat)&#39;, &#39;3&#39;: &#39;bedrock_layered (unsure)&#39;, &#39;4&#39;: &#39;bedrock_conglomerate&#39;, &#39;5&#39;: &#39;bedrock_holey&#39;, &#39;6&#39;: &#39;bedrock_unsure&#39;, &#39;10&#39;: &#39;float rock(s)_massive&#39;, &#39;11&#39;: &#39;float rock(s)_layered (angled)&#39;, &#39;12&#39;: &#39;float rock(s)_layered (flat)&#39;, &#39;13&#39;: &#39;float rock(s)_layered (unsure)&#39;, &#39;14&#39;: &#39;float rock(s)_conglomerate&#39;, &#39;15&#39;: &#39;float rock(s)_holey&#39;, &#39;16&#39;: &#39;float rock(s)_mixed&#39;, &#39;17&#39;: &#39;float rock(s)_unsure&#39;, &#39;20&#39;: &#39;sand_dune&#39;, &#39;21&#39;: &#39;sand_ripples&#39;, &#39;22&#39;: &#39;sand_sand&#39;, &#39;30&#39;: &#39;pebbles&#39;, &#39;40&#39;: &#39;vein (rare)&#39;, &#39;50&#39;: &#39;hill/peak&#39;, &#39;255&#39;: None}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geo_to_nav_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Bedrock</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">40</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+
+    <span class="c1"># Float rocks → big rock</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">16</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+
+    <span class="c1"># Sand</span>
+    <span class="mi">20</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">22</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+
+    <span class="c1"># Soil</span>
+    <span class="mi">30</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">50</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+
+    <span class="c1"># Ignore</span>
+    <span class="mi">255</span><span class="p">:</span> <span class="mi">255</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mapping creado correctamente.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mapping creado correctamente.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="n">geo_labels_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">base_path</span><span class="p">,</span>
+    <span class="s2">&quot;m2020&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;labels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M2020_GEO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ncam&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Tomar una máscara aleatoria</span>
+<span class="n">sample_mask_name</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">))</span>
+<span class="n">sample_mask_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">,</span> <span class="n">sample_mask_name</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">sample_mask_path</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Máscara analizada:&quot;</span><span class="p">,</span> <span class="n">sample_mask_name</span><span class="p">)</span>
+
+<span class="c1"># Clases originales</span>
+<span class="n">original_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clases originales:&quot;</span><span class="p">,</span> <span class="n">original_classes</span><span class="p">)</span>
+
+<span class="c1"># Aplicar mapping</span>
+<span class="n">remapped_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="n">unmapped_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">original_classes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">geo_to_nav_mapping</span><span class="p">:</span>
+        <span class="n">remapped_mask</span><span class="p">[</span><span class="n">mask</span> <span class="o">==</span> <span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_to_nav_mapping</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unmapped_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clases remapeadas:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">remapped_mask</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">unmapped_values</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ Clases sin mapping:&quot;</span><span class="p">,</span> <span class="n">unmapped_values</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Todas las clases están correctamente mapeadas.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Máscara analizada: NLF_0044_0670851758_649EBY_N0031416NCAM00602_00_0LLJ_merged3.png
+Clases originales: [  2  16  21  22  30 255]
+Clases remapeadas: [  0   1   2   3 255]
+✅ Todas las clases están correctamente mapeadas.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Extraer nombre base para buscar imagen</span>
+<span class="n">image_name</span> <span class="o">=</span> <span class="n">sample_mask_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_merged&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.jpeg&quot;</span>
+
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">base_path</span><span class="p">,</span>
+    <span class="s2">&quot;m2020&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;images&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ncam&quot;</span><span class="p">,</span>
+    <span class="n">image_name</span>
+<span class="p">)</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">))</span>
+
+<span class="c1"># Visualización</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Imagen original&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Máscara original GEO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">remapped_mask</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Máscara remapeada (NAV-style)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b0ffcb2cb76406f856c422acdf1d48df336570b450e5a2bde75237b63b8e25fc.png" src="_images/b0ffcb2cb76406f856c422acdf1d48df336570b450e5a2bde75237b63b8e25fc.png" />
+</div>
+</div>
+<p>Podemos observar que el mapeo de clases fue realizado correctamente para las imagenes con clases GEO, de esta manera tenemos mascaras unificadas para las imagenes de los 3 rovers</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)]</span>
+<span class="n">sampled_files</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">label_files</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_files</span><span class="p">)))</span>
+
+<span class="n">pixel_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+<span class="n">total_pixels</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">sampled_files</span><span class="p">:</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">,</span> <span class="n">fname</span><span class="p">)))</span>
+
+    <span class="n">remapped_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">orig_val</span><span class="p">,</span> <span class="n">new_val</span> <span class="ow">in</span> <span class="n">geo_to_nav_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">remapped_mask</span><span class="p">[</span><span class="n">mask</span> <span class="o">==</span> <span class="n">orig_val</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_val</span>
+
+    <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">remapped_mask</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="n">pixel_counter</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">u</span><span class="p">)]</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">total_pixels</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">class_distribution</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="bp">cls</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_pixels</span>
+    <span class="k">for</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">pixel_counter</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IGNORE_INDEX</span><span class="o">=</span><span class="mi">255</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_distribution</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">IGNORE_INDEX</span><span class="p">)</span>
+<span class="n">fractions</span> <span class="o">=</span> <span class="p">[</span><span class="n">class_distribution</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">],</span> <span class="n">fractions</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Clases remapeadas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Proporcion de pixeles&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribucion de clases despues del remapeo&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ec4dd69dbfa01bbec57e1918064db50777222abf79ad970c391d9818db0faf54.png" src="_images/ec4dd69dbfa01bbec57e1918064db50777222abf79ad970c391d9818db0faf54.png" />
+</div>
+</div>
+<p>Podemos observar que despues de realizar el remapeado no se crearon clases fantasma y las clases estan mas balanceadas entre si</p>
+<p>Revisamos y contamos la distribucion de pixeles por clase</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+
+<span class="n">class_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geo_labels_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)))</span>
+    
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">geo_to_nav_mapping</span><span class="p">:</span>
+            <span class="n">mapped_val</span> <span class="o">=</span> <span class="n">geo_to_nav_mapping</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+            <span class="n">class_counter</span><span class="p">[</span><span class="n">mapped_val</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución de píxeles remapeados:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">class_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">class_counter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución de píxeles remapeados:
+Clase 0: 466491714
+Clase 1: 224739495
+Clase 2: 292036473
+Clase 3: 67379228
+Clase 255: 1500571442
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nav_labels_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">base_path</span><span class="p">,</span>
+    <span class="s2">&quot;m2020&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;labels&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NAV&quot;</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">nav_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">nav_labels_path</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nav_labels_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)))</span>
+    
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+        <span class="n">nav_counter</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución NAV:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nav_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">nav_counter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución NAV:
+Clase 0: 1517146505
+Clase 1: 630772689
+Clase 2: 469519802
+Clase 3: 71059788
+Clase 255: 1537560480
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">msl_labels_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\train&quot;</span>
+
+<span class="n">msl_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">msl_labels_path</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl_labels_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+        <span class="n">msl_counter</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">val</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución MSL:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">msl_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msl_counter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución MSL:
+Clase 0: 3485135841
+Clase 1: 4660855168
+Clase 2: 1126246813
+Clase 3: 86225600
+Clase 255: 7485861442
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mer_labels_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\train\merged-unmasked&quot;</span>
+
+<span class="n">mer_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mer_labels_path</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mer_labels_path</span><span class="p">,</span> <span class="n">file</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+        <span class="n">mer_counter</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">val</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribución MER:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">mer_counter</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clase </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">mer_counter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribución MER:
+Clase 0: 2012496282
+Clase 1: 1038559262
+Clase 2: 1680433533
+Clase 3: 34180514
+Clase 255: 4154566441
+</pre></div>
+</div>
+</div>
+</div>
+<p>Revisamos internamente que todo este correcto en cuanto a nombres en las carpetas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📂</span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   ├── </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📂 C:\Users\Hp\Documents\Deep learning\Entregable1\docs
+   ├── m2020
+   ├── mer
+   ├── msl
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">base_path</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Hp\Documents\Deep learning\Entregable1\docs
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\HAFIQ
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\mcam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\images\ncam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO\mcam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\M2020_GEO\ncam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\m2020\labels\NAV
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images\eff
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\images\test
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min1-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min2-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\masked-gold-min3-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\test\raw_unmerged
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\train
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\mer\labels\train\merged-unmasked
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\images
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\labels
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\mcam\labels\train
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\edr
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\mxy
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\images\rng-30m
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min1-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min2-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\test\masked-gold-min3-100agree
+C:\Users\Hp\Documents\Deep learning\Entregable1\docs\msl\ncam\labels\train
+</pre></div>
+</div>
+</div>
+</div>
+<p>Construimos los pares de imagenes con sus labels</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Hp\Documents\Deep learning\Entregable1\docs&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">build_pairs_fast</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">mask_dir</span><span class="p">):</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">image_files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span>
+    <span class="n">mask_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)]</span>
+    
+    <span class="k">for</span> <span class="n">img_name</span> <span class="ow">in</span> <span class="n">image_files</span><span class="p">:</span>
+        <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">img_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">img_name</span><span class="p">)</span>
+        
+        <span class="c1"># Buscar máscara que empiece con el nombre base</span>
+        <span class="k">for</span> <span class="n">mask_name</span> <span class="ow">in</span> <span class="n">mask_files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mask_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">base_name</span><span class="p">):</span>
+                <span class="n">mask_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">,</span> <span class="n">mask_name</span><span class="p">)</span>
+                <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">img_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">))</span>
+                <span class="k">break</span>
+    
+    <span class="k">return</span> <span class="n">pairs</span>
+
+
+<span class="c1"># ==========================</span>
+<span class="c1"># ==== MSL =================</span>
+<span class="c1"># ==========================</span>
+
+<span class="n">msl_mcam_img</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;mcam&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span>
+<span class="n">msl_mcam_lbl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;mcam&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span>
+
+<span class="n">msl_ncam_img</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;edr&quot;</span><span class="p">)</span>
+<span class="n">msl_ncam_lbl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;msl&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span>
+
+<span class="n">msl_paths</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">msl_paths</span> <span class="o">+=</span> <span class="n">build_pairs_fast</span><span class="p">(</span><span class="n">msl_mcam_img</span><span class="p">,</span> <span class="n">msl_mcam_lbl</span><span class="p">)</span>
+<span class="n">msl_paths</span> <span class="o">+=</span> <span class="n">build_pairs_fast</span><span class="p">(</span><span class="n">msl_ncam_img</span><span class="p">,</span> <span class="n">msl_ncam_lbl</span><span class="p">)</span>
+
+
+<span class="c1"># ==========================</span>
+<span class="c1"># ==== MER =================</span>
+<span class="c1"># ==========================</span>
+
+<span class="n">mer_img</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;mer&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;eff&quot;</span><span class="p">)</span>
+<span class="n">mer_lbl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;mer&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;merged-unmasked&quot;</span><span class="p">)</span>
+
+<span class="n">mer_paths</span> <span class="o">=</span> <span class="n">build_pairs_fast</span><span class="p">(</span><span class="n">mer_img</span><span class="p">,</span> <span class="n">mer_lbl</span><span class="p">)</span>
+
+
+<span class="c1"># ==========================</span>
+<span class="c1"># ==== NAV (M2020) ========</span>
+<span class="c1"># ==========================</span>
+
+<span class="n">nav_img</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;m2020&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ncam&quot;</span><span class="p">)</span>
+<span class="n">nav_lbl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="s2">&quot;m2020&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span><span class="p">)</span>
+
+<span class="n">nav_paths</span> <span class="o">=</span> <span class="n">build_pairs_fast</span><span class="p">(</span><span class="n">nav_img</span><span class="p">,</span> <span class="n">nav_lbl</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MSL:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msl_paths</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MER:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mer_paths</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NAV:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nav_paths</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MSL: 25163
+MER: 8303
+NAV: 2642
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos el dataset final que se utilizara en el modelado</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MarsBalancedDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msl_paths</span><span class="p">,</span> <span class="n">mer_paths</span><span class="p">,</span> <span class="n">nav_paths</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">30000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msl_paths</span> <span class="o">=</span> <span class="n">msl_paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mer_paths</span> <span class="o">=</span> <span class="n">mer_paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nav_paths</span> <span class="o">=</span> <span class="n">nav_paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+        
+        <span class="c1"># longitud artificial para entrenamiento</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">rovers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MSL&quot;</span><span class="p">,</span> <span class="s2">&quot;MER&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        
+        <span class="c1"># Elegir rover aleatorio (balance uniforme)</span>
+        <span class="n">rover</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rovers</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">rover</span> <span class="o">==</span> <span class="s2">&quot;MSL&quot;</span><span class="p">:</span>
+            <span class="n">img_path</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msl_paths</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rover</span> <span class="o">==</span> <span class="s2">&quot;MER&quot;</span><span class="p">:</span>
+            <span class="n">img_path</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mer_paths</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img_path</span><span class="p">,</span> <span class="n">mask_path</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nav_paths</span><span class="p">)</span>
+        
+        <span class="c1"># Cargar imagen y máscara</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mask_path</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">:</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">ByteTensor</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ByteStorage</span><span class="o">.</span><span class="n">from_buffer</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mask</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">MarsBalancedDataset</span><span class="p">(</span><span class="n">msl_paths</span><span class="p">,</span> <span class="n">mer_paths</span><span class="p">,</span> <span class="n">nav_paths</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">30000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="int.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dataset: AI4MARS (Artificial Intelligence for Mars Rover Surveys)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tabla.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modelos originales de Deep Learning para el Reconocimiento de Terreno en Marte (AI4MARS)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias">Librerias</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-inicial">Analisis Inicial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-del-dataset-mejorado">Construccion del dataset mejorado</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mateo Gomez, Mateo Molinares, Alejandro Moya y David Ibañez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
